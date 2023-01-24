@@ -9,8 +9,8 @@ const btnSave = $('#save');
 const btnCopy = $('#secondMainBtn');
 
 const showLineNumBtn = $('#showLineNumBtn');
-const showWindowControls = $('#showWindowControls');
-const modeChangeBtn = $("#modeChangeBtn")
+const showWindowControlsBtn = $('#showWindowControlsBtn');
+const modeChangeBtn = $('#modeChangeBtn');
 
 let _toolMode;
 
@@ -41,7 +41,7 @@ window.addEventListener('message', ({ data: { type, ...cfg } }) => {
       toolMode
     } = config;
 
-    _toolMode = toolMode
+    _toolMode = toolMode;
 
     setVar('ligatures', fontLigatures ? 'normal' : 'none');
     if (typeof fontLigatures === 'string') setVar('font-features', fontLigatures);
@@ -59,74 +59,74 @@ window.addEventListener('message', ({ data: { type, ...cfg } }) => {
 
     document.execCommand('paste');
 
-    let actions = []
-    if(shutterAction == "save") {
-      actions = [
-        () => takeSnap(config), 
-        () => takeSnap({ ...config, shutterAction: 'copy' }),
-      ]
-      btnCopy.textContent = "Copy"
+    let actions = [];
+    if (shutterAction === 'save') {
+      actions = [() => takeSnap(config), () => takeSnap({ ...config, shutterAction: 'copy' })];
+      btnCopy.textContent = 'Copy';
     } else {
-      actions = [
-        () => takeSnap(config),
-        () => takeSnap({ ...config, shutterAction: 'save' }), 
-      ]
-      btnCopy.textContent = "Save As..."
+      actions = [() => takeSnap(config), () => takeSnap({ ...config, shutterAction: 'save' })];
+      btnCopy.textContent = 'Save As...';
     }
 
-    btnSave.addEventListener('click', actions[0])
-    btnCopy.addEventListener('click', actions[1])
+    btnSave.addEventListener('click', actions[0]);
+    btnCopy.addEventListener('click', actions[1]);
 
-    if(!showLineNumbers) {
-      document.getElementById('showLineNumBtn').children[0].children[0].classList.toggle('opacity-0');
+    if (!showLineNumbers) {
+      document
+        .getElementById('showLineNumBtn')
+        .children[0].children[0].classList.toggle('opacity-0');
     }
 
     showLineNumBtn.addEventListener('click', () => {
-
-      document.getElementById('showLineNumBtn').children[0].children[0].classList.toggle('opacity-0');
+      document
+        .getElementById('showLineNumBtn')
+        .children[0].children[0].classList.toggle('opacity-0');
 
       // showLineNumBtn.firstChild.classList.toggle('opacity-100');
 
       const lineNums = $$('.line-number');
-    
-      lineNums.forEach(lineNum => {
-        lineNum.classList.toggle("hidden")
-      })
-    })
 
-    if(!showWindowControls){
-      document.getElementById('showWindowControlsBtn').children[0].children[0].classList.toggle('opacity-0');
+      lineNums.forEach((lineNum) => {
+        lineNum.classList.toggle('hidden');
+      });
+    });
+
+    if (!showWindowControls) {
+      document
+        .getElementById('showWindowControlsBtn')
+        .children[0].children[0].classList.toggle('opacity-0');
     }
     showWindowControlsBtn.addEventListener('click', () => {
-      document.getElementById('showWindowControlsBtn').children[0].children[0].classList.toggle('opacity-0');
-      windowControlsNode.hidden = !windowControlsNode.hidden
+      document
+        .getElementById('showWindowControlsBtn')
+        .children[0].children[0].classList.toggle('opacity-0');
+      windowControlsNode.hidden = !windowControlsNode.hidden;
       navbarNode.hidden = windowControlsNode.hidden && !showWindowTitle;
-    })
+    });
 
-    toolModeToggled()
+    toolModeToggled();
 
     modeChangeBtn.addEventListener('click', () => {
-      _toolMode = _toolMode==='advanced' ? 'simple': 'advanced'
-      toolModeToggled()
-    })
-
+      _toolMode = _toolMode === 'advanced' ? 'simple' : 'advanced';
+      toolModeToggled();
+    });
   } else if (type === 'flash') {
     cameraFlashAnimation();
   }
 });
 
 const toolModeToggled = () => {
-  if(_toolMode=='advanced') {
-    btnCopy.classList.remove("hidden")
-    $('#showLineNumBtn').classList.remove("hidden")
-    $('#showWindowControlsBtn').classList.remove("hidden")
-    $("#rightPanel").classList.remove("justify-end")
-    modeChangeBtn.textContent = "Simple Mode"
+  if (_toolMode === 'advanced') {
+    btnCopy.classList.remove('hidden');
+    $('#showLineNumBtn').classList.remove('hidden');
+    $('#showWindowControlsBtn').classList.remove('hidden');
+    $('#rightPanel').classList.remove('justify-end');
+    modeChangeBtn.textContent = 'Simple Mode';
   } else {
-    btnCopy.classList.add("hidden")
-    $('#showLineNumBtn').classList.add("hidden")
-    $('#showWindowControlsBtn').classList.add("hidden")
-    $("#rightPanel").classList.add("justify-end")
-    modeChangeBtn.textContent = "Advanced Mode"
+    btnCopy.classList.add('hidden');
+    $('#showLineNumBtn').classList.add('hidden');
+    $('#showWindowControlsBtn').classList.add('hidden');
+    $('#rightPanel').classList.add('justify-end');
+    modeChangeBtn.textContent = 'Advanced Mode';
   }
-}
+};

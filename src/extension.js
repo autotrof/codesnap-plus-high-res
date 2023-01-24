@@ -103,5 +103,5 @@ const runCommand = async (context) => {
 
 module.exports.activate = (context) =>
   context.subscriptions.push(
-    vscode.commands.registerCommand('codesnap-plus.start', () => runCommand(context))
+    vscode.commands.registerCommand('codesnap-plus-fix.start', () => runCommand(context))
   );

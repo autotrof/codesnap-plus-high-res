@@ -16,35 +16,29 @@ const setupLines = (node, config) => {
     if (config.showLineNumbers) {
       const lineNum = document.createElement('div');
       lineNum.classList.add('line-number');
-      
+
       // lineNumber click event
-      lineNum.onclick = function (e) {
-        var firstRowIsWhiteSpace = this.nextSibling.firstChild.firstChild.innerText.trim() === "";
+      lineNum.onclick = function (_) {
+        // const firstRowIsWhiteSpace = this.nextSibling.firstChild.firstChild.innerText.trim() === '';
 
-        if(this.parentNode.classList.contains("line-focus")) {
-          
-          this.parentNode.classList.remove("line-focus");
-          this.parentNode.classList.add("git-add");
-          this.classList.add('!text-white')
-
-        } else if (this.parentNode.classList.contains("git-add")) {
-
-          this.parentNode.classList.remove("git-add");
-          this.parentNode.classList.add("git-remove");
-          this.classList.add('!text-white')
-
-        } else if (this.parentNode.classList.contains("git-remove")) {
-          
-          this.parentNode.classList.remove("line-focus");
-          this.parentNode.classList.remove("git-add");
-          this.parentNode.classList.remove("git-remove");
-          lineNum.classList.remove('text-white')
-
+        if (this.parentNode.classList.contains('line-focus')) {
+          this.parentNode.classList.remove('line-focus');
+          this.parentNode.classList.add('git-add');
+          this.classList.add('!text-white');
+        } else if (this.parentNode.classList.contains('git-add')) {
+          this.parentNode.classList.remove('git-add');
+          this.parentNode.classList.add('git-remove');
+          this.classList.add('!text-white');
+        } else if (this.parentNode.classList.contains('git-remove')) {
+          this.parentNode.classList.remove('line-focus');
+          this.parentNode.classList.remove('git-add');
+          this.parentNode.classList.remove('git-remove');
+          lineNum.classList.remove('text-white');
         } else {
-          this.parentNode.classList.add("line-focus");
-          this.parentNode.classList.remove("git-add");
-          this.parentNode.classList.remove("git-remove");
-          lineNum.classList.add('!text-white')
+          this.parentNode.classList.add('line-focus');
+          this.parentNode.classList.remove('git-add');
+          this.parentNode.classList.remove('git-remove');
+          lineNum.classList.add('!text-white');
         }
       };
       lineNum.textContent = idx + 1 + config.startLine;
@@ -59,17 +53,19 @@ const setupLines = (node, config) => {
     lineCodeDiv.classList.add('line-code');
 
     if (row.innerText.trim().length === 1 && row.childNodes.length === 2) {
-      var char = row.innerText.trim();
+      const char = row.innerText.trim();
 
       const lineCode = document.createElement('span');
-      lineCode.innerHTML = row.innerHTML.split(char).join("");
+      lineCode.innerHTML = row.innerHTML.split(char).join('');
       lineCodeDiv.appendChild(lineCode);
 
-      const lineCode1 = document.createElement('span');
-      lineCode1.innerHTML = row.innerHTML.replace(/&nbsp;/ig, "");
+      const lineCode1 = document.createElement('pre');
+      lineCode1.style.display = 'contents';
+      lineCode1.innerHTML = row.innerHTML.replace(/&nbsp;/giu, '');
       lineCodeDiv.appendChild(lineCode1);
     } else {
-      const lineCode = document.createElement('span');
+      const lineCode = document.createElement('pre');
+      lineCode.style.display = 'contents';
       lineCode.innerHTML = row.innerHTML;
       lineCodeDiv.appendChild(lineCode);
     }
