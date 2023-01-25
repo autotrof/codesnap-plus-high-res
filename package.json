@@ -2,7 +2,7 @@
   "name": "codesnap-plus-fix",
   "displayName": "CodeSnap-plus-fix",
   "description": "📸 Take beautiful screenshots of your code in VS Code! And you can hightlight the line just by click.",
-  "version": "1.4.1",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/eugenejeonme/CodeSnap-plus-fix"

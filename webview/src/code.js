@@ -2,11 +2,65 @@ import { $, $$, setVar, calcTextWidth } from './util.js';
 
 const snippetNode = $('#snippet');
 
+const trimLines = (rows) => {
+  // Trim blank lines from start/end
+  const totalLines = rows.length;
+  let trimStart = true;
+  let trimStartIndex = 0;
+
+  let trimEnd = false;
+  let trimEndIndex = 0;
+  let lastLineBlank = false;
+
+  for (let idx = 0; idx < totalLines; idx++) {
+    const lineIsEmpty = rows[idx].innerText.trim() === ""
+
+    // Keep track of how many lines at the start are blank.
+    if (trimStart) {
+      if (lineIsEmpty) {
+        trimStartIndex++;
+        continue;
+      } else {
+        trimStart = false;
+        trimEnd = true;
+      }
+    }
+
+    // Keep track of first blank line we encounter as we move towards the end
+    if (trimEnd) {
+      if (lineIsEmpty) {
+        if (!lastLineBlank) {
+          trimEndIndex = idx;
+          lastLineBlank = true;
+        }
+      } else {
+        trimEndIndex = totalLines;
+        lastLineBlank = false;
+      }
+    }
+  }
+
+  // Remove all the blank lines from the start
+  for (let idx = 0; idx < trimStartIndex; idx++) {
+    rows[idx].remove();
+  }
+
+  // Remove all the blank lines from the end
+  for (let idx = trimEndIndex; idx < totalLines; idx++) {
+    rows[idx].remove();
+  }
+
+  // Return the number of lines we removed so we can offset the line number.
+  return trimStartIndex;
+};
+
 const setupLines = (node, config) => {
   $$(':scope > br', node).forEach((row) => (row.outerHTML = '<div>&nbsp;</div>'));
 
   const rows = $$(':scope > div', node);
   setVar('line-number-width', calcTextWidth(rows.length + config.startLine));
+
+  const startLinesTrimmed = trimLines(rows);
 
   rows.forEach((row, idx) => {
     const newRow = document.createElement('div');
@@ -41,7 +95,7 @@ const setupLines = (node, config) => {
           lineNum.classList.add('!text-white');
         }
       };
-      lineNum.textContent = idx + 1 + config.startLine;
+      lineNum.textContent = idx + 1 + config.startLine - startLinesTrimmed;
       newRow.appendChild(lineNum);
     }
 
@@ -59,15 +113,15 @@ const setupLines = (node, config) => {
       lineCode.innerHTML = row.innerHTML.split(char).join('');
       lineCodeDiv.appendChild(lineCode);
 
-      const lineCode1 = document.createElement('pre');
-      lineCode1.style.display = 'contents';
-      lineCode1.innerHTML = row.innerHTML.replace(/&nbsp;/giu, '');
-      lineCodeDiv.appendChild(lineCode1);
+      const lineCodePre = document.createElement('pre');
+      lineCodePre.style.display = 'contents';
+      lineCodePre.innerHTML = row.innerHTML.replace(/&nbsp;/giu, '');
+      lineCodeDiv.appendChild(lineCodePre);
     } else {
-      const lineCode = document.createElement('pre');
-      lineCode.style.display = 'contents';
-      lineCode.innerHTML = row.innerHTML;
-      lineCodeDiv.appendChild(lineCode);
+      const lineCodePre = document.createElement('pre');
+      lineCodePre.style.display = 'contents';
+      lineCodePre.innerHTML = row.innerHTML;
+      lineCodeDiv.appendChild(lineCodePre);
     }
     newRow.appendChild(lineCodeDiv);
   });
@@ -75,8 +129,9 @@ const setupLines = (node, config) => {
 
 const stripInitialIndent = (node) => {
   const regIndent = /^\s+/u;
-  const initialSpans = $$(':scope > div > span:first-child', node);
+  let initialSpans = $$(':scope > div > span:first-child', node);
   if (initialSpans.some((span) => !regIndent.test(span.textContent))) return;
+  initialSpans = initialSpans.filter((span) => span.textContent.trim() === '');
   const minIndent = Math.min(
     ...initialSpans.map((span) => span.textContent.match(regIndent)[0].length)
   );
