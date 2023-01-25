@@ -18,3 +18,13 @@ export const calcTextWidth = (text) => {
   div.remove();
   return width + 1 + 'px';
 };
+
+export const throttle = (callbcak, delay = 1000) => {
+  let waiting = false;
+  return (...args) => {
+    if (waiting) return;
+    callbcak.apply(null, ...args);
+    waiting = true;
+    setTimeout(() => (waiting = false), delay);
+  };
+};
