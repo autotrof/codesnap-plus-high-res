@@ -22,7 +22,8 @@ const getConfig = () => {
     'transparentBackground',
     'target',
     'shutterAction',
-    'toolMode'
+    'toolMode',
+    'size'
   ]);
 
   const selection = editor && editor.selection;

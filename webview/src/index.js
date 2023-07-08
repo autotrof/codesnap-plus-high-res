@@ -84,7 +84,8 @@ window.addEventListener('message', ({ data: { type, ...cfg } }) => {
       showWindowTitle,
       windowTitle,
       showLineNumbers,
-      toolMode
+      toolMode,
+      size
     } = config;
 
     _toolMode = toolMode;
@@ -95,7 +96,7 @@ window.addEventListener('message', ({ data: { type, ...cfg } }) => {
     setVar('container-background-color', backgroundColor);
     setVar('box-shadow', boxShadow);
     setVar('container-padding', containerPadding);
-    setVar('window-border-radius', roundedCorners ? '4px' : 0);
+    setVar('window-border-radius', roundedCorners + 'px');
 
     navbarNode.hidden = !showWindowControls && !showWindowTitle;
     windowControlsNode.hidden = !showWindowControls;

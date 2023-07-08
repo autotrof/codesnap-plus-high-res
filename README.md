@@ -75,13 +75,15 @@ Monokai + [Fira Code](https://github.com/tonsky/FiraCode)
 
 CodeSnap is highly configurable. Here's a list of settings you can change to tune the way your screenshots look:
 
+**`codesnap-plus-fix.size`:** The size of the image. Can be integer value.
+
 **`codesnap-plus-fix.backgroundColor`:** The background color of the snippet's container. Can be any valid CSS color.
 
 **`codesnap-plus-fix.boxShadow`:** The CSS box-shadow for the snippet. Can be any valid CSS box shadow.
 
 **`codesnap-plus-fix.containerPadding`:** The padding for the snippet's container. Can be any valid CSS padding.
 
-**`codesnap-plus-fix.roundedCorners`:** Boolean value to use rounded corners or square corners for the window.
+**`codesnap-plus-fix.roundedCorners`:** Integer value to use rounded corners for the window.
 
 **`codesnap-plus-fix.showWindowControls`:** Boolean value to show or hide OS X style window buttons.
 

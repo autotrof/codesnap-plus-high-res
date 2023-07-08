@@ -6,8 +6,6 @@ const snippetContainerNode = $('#snippet-container');
 
 const flashFx = $('#flash-fx');
 
-const SNAP_SCALE = 2;
-
 export const cameraFlashAnimation = async () => {
   flashFx.style.display = 'block';
   redraw(flashFx);
@@ -27,7 +25,7 @@ export const takeSnap = async (config) => {
 
   const url = await domtoimage.toPng(target, {
     bgColor: 'transparent',
-    scale: SNAP_SCALE,
+    scale: config.size,
     postProcess: (node) => {
       $$('#snippet-container, #snippet, .line, .line-code span', node).forEach(
         (span) => (span.style.width = 'unset')

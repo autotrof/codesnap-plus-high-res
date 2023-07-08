@@ -1,13 +1,13 @@
 {
-  "name": "codesnap-plus-fix",
-  "displayName": "CodeSnap-plus-fix",
-  "description": "📸 Take beautiful screenshots of your code in VS Code! And you can hightlight the line just by click.",
+  "name": "codesnap-plus-high-res",
+  "displayName": "CodeSnap-plus-high-res",
+  "description": "📸 Take beautiful screenshots of your code in VS Code! And you can hightlight the line just by click. Add image size option",
   "version": "1.0.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/eugenejeonme/CodeSnap-plus-fix"
+    "url": "https://github.com/autotrof/codesnap-plus-high-res"
   },
-  "publisher": "eugenejeon",
+  "publisher": "autotrof",
   "icon": "icon.png",
   "license": "MIT",
   "engines": {
@@ -48,6 +48,12 @@
       "type": "object",
       "title": "CodeSnap",
       "properties": {
+        "codesnap-plus.size": {
+          "scope": "resource",
+          "type": "string",
+          "default": 4,
+          "description": "Image size"
+        },
         "codesnap-plus.backgroundColor": {
           "scope": "resource",
           "type": "string",
@@ -68,7 +74,7 @@
         },
         "codesnap-plus.roundedCorners": {
           "scope": "resource",
-          "type": "boolean",
+          "type": "integer",
           "default": true,
           "description": "Use rounded corners for the window"
         },
